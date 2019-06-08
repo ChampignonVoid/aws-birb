@@ -1,0 +1,3 @@
+"""
+Birb Meme handler
+"""
