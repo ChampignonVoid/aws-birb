@@ -1,3 +1,4 @@
 django >=1.9
 pip >=19.0
 pillow
+django-bootstrap4
