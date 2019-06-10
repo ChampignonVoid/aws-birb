@@ -2,3 +2,5 @@ django >=1.9
 pip >=19.0
 pillow
 django-bootstrap4
+gunicorn==19.9.0
+django-heroku==0.3.1
