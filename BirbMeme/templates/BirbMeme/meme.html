@@ -1,8 +1,6 @@
-<html>
-<head><title></title></head>
+{% extends "layout.html" %}
 
-<body>
-
+{% block content %}
 {% if meme %}
     You're on the meme : {{ meme.id }}<br />
     <br />
@@ -24,5 +22,4 @@
     No evaluations for the current meme.
 {% endif %}
 
-</body>
-</html>
+{% endblock %}

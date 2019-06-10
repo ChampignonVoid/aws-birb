@@ -134,5 +134,6 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['Media']))
 
-# Login
+# Login/Logout
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
