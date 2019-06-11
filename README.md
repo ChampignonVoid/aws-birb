@@ -1,16 +1,17 @@
 # birbmeme-django
 
 Project done for the Django course, using Django REST API
-Done by:
-Axel VIGNY
-Laxman Thayalan
 
-Les urls utilisables :
+## Auteurs du projet :
+- Axel VIGNY
+- Laxman THAYALAN
 
-	/admin/ : connexion en tant qu'admin (vous devez créer un superuser auparavant)
-		  ajout, suppression, modification des données via les pages suivantes
+## Les urls utilisables :
 
-	/birbmeme/ : liste des 5 derniers memes créés
+	/admin/ : connexion en tant qu'admin (vous devez crer un superuser auparavant)
+		  ajout, suppression, modification des donnes via les pages suivantes
+
+	/birbmeme/ : liste des 5 derniers memes crs
 
 	/birbmeme/memes/<meme_id>/ : page du meme avec comme id <meme_id>
 
