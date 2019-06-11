@@ -5,6 +5,11 @@ from django.utils import timezone
 
 # Create your models here.
 
+from django.contrib.auth.models import AbstractUser
+
+class User(AbstractUser):
+    pass
+
 class MemeCreator(models.Model):
     name = models.CharField(max_length=50)
     email = models.EmailField()

@@ -30,6 +30,7 @@ DEBUG = os.environ.get('DEBUG', False)
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'BirbMeme.User'
 
 # Application definition
 
