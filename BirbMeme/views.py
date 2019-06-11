@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from BirbMeme.models import MemeCreator, BirbMeme, MemeEvaluation
+from BirbMeme.models import BirbUser, BirbMeme, MemeEvaluation
 
 # Create your views here
 def index(request):
@@ -23,5 +23,5 @@ def meme_detail(request, meme_id):
     return HttpResponse(template.render(context, request))
 
 def creator_detail(request, creator_id):
-    the_creator = MemeCreator.objects.get(id=creator_id)
+    the_creator = BirbUser.objects.get(id=creator_id)
     return HttpResponse("You're looking at creator %s. %s" % (creator_id, str(the_creator)))
