@@ -1,0 +1,15 @@
+image: python:3.6 # Use 3.6 version of Python
+
+# This folder is cached between builds
+# http://docs.gitlab.com/ce/ci/yaml/README.html#cache
+cache:
+  paths:
+  - ~/.cache/pip/
+
+before_script:
+  - python -V # Print out python version for debugging
+  - pip install -r requirements.txt
+
+tests:
+  script:
+  - python manage.py test
