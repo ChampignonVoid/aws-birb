@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'BirbMeme.apps.BirbMemeConfig',
     'registration.apps.RegistrationConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
