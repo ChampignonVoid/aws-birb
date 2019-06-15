@@ -1,6 +1,5 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponse
-from django.template import loader
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
@@ -9,20 +8,16 @@ from rest_framework.decorators import api_view, renderer_classes
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
-
-from django.core.exceptions import ValidationError
-
 from .serializers import BirbMemeSerializer, SignUpSerializer
 from .schemas import SignUpSchema
 from BirbMeme.models import BirbUser, BirbMeme, MemeEvaluation
 
 from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
 
-# Create your views here
-
 
 def index(request):
     return redirect('memes/')
+
 
 @api_view(['GET'])
 @renderer_classes([OpenAPIRenderer, SwaggerUIRenderer])
@@ -31,10 +26,9 @@ def creator_detail(request, creator_id):
     Get the user\'s details
     """
     the_creator = BirbUser.objects.get(id=creator_id)
-    return HttpResponse("You're looking at creator %s. %s" % (creator_id, str(the_creator)))
+    return HttpResponse("You're looking at creator %s. %s" % (creator_id,
+                                                              str(the_creator)))
 
-
-### API View ###
 
 class BirbMemeList(APIView):
     renderer_classes = [TemplateHTMLRenderer]
@@ -62,8 +56,13 @@ class BirbMemeDetail(APIView):
         meme_evals = MemeEvaluation.objects.filter(meme__id=meme_id)
         return Response({'meme': the_meme, 'meme_evals': meme_evals})
 
+
 class SignUp(APIView):
-    renderer_classes = [TemplateHTMLRenderer, OpenAPIRenderer, SwaggerUIRenderer]
+    renderer_classes = [
+        TemplateHTMLRenderer,
+        OpenAPIRenderer,
+        SwaggerUIRenderer
+    ]
     template_name = "BirbMeme/sign_up.html"
     schema = SignUpSchema()
 
@@ -76,16 +75,19 @@ class SignUp(APIView):
     def post(self, request):
         if request.user.is_authenticated:
             return redirect('/')
-       
+
         serializer = SignUpSerializer(data=request.data)
         if not serializer.is_valid():
             return Response({'title': 'SignUp', 'serializer': serializer})
-        
-        user = BirbUser.objects.create_user(username=request.data.get('username'),
-                                           first_name=request.data.get('first_name'),
-                                           last_name=request.data.get('last_name'),
-                                           email=request.data.get('email'),
-                                           password=request.data.get('password'),
-                                          )
+        username = request.data.get('username')
+        first_name = request.data.get('first_name')
+        last_name = request.data.get('last_name')
+        email = request.data.get('email')
+        password = request.data.get('password')
+        user = BirbUser.objects.create_user(username=username,
+                                            first_name=first_name,
+                                            last_name=last_name,
+                                            email=email,
+                                            password=password)
         login(request, user)
         return redirect('/')

@@ -1,12 +1,13 @@
 from rest_framework.schemas import AutoSchema
-import coreapi, coreschema
+import coreapi
+
 
 class SignUpSchema(AutoSchema):
     def get_manual_fields(self, path, method):
         extra_fields = []
-        if method=='GET':
+        if method == 'GET':
             extra_fields = []
-        if method=='POST':
+        if method == 'POST':
             extra_fields = [
                 coreapi.Field(
                     name='username',

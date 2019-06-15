@@ -23,8 +23,8 @@ class BirbMeme(models.Model):
                                 on_delete=models.CASCADE)
 
     def __str__(self):
-        return ('Created by : ' + self.creator.name +
-                ', Description : ' + self.description)
+        return ('Created by : %s, Description : %s' % ((self.creator.name,
+                                                        self.description)))
 
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
@@ -37,4 +37,5 @@ class MemeEvaluation(models.Model):
     creator = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
     def __str__(self):
-        return 'Evaluation of ' + self.creator.name + ' : ' + str(self.meme_eval) + '/10'
+        return ('Evaluation of %s: %s/10' % (self.creator.name,
+                                             str(self.meme_eval)))
