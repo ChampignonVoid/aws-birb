@@ -8,6 +8,7 @@ Project done for the Django course, using Django REST API
 
 ## Heroku :
 Le site est hebergé sur [Heroku](https://epita-python-2020.herokuapp.com/)
+Attention sur Heroku notre système de gestion de Medias n'est pas fonctionnel, n'ayant pas trouvé de paliatif il est préférable de lancer le site directement via manage.py
 
 ## Les urls utilisables :
 	/api/v1/docs/ : documentation Swagger
