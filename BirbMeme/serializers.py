@@ -24,12 +24,12 @@ class SignUpSerializer(serializers.Serializer):
 
     last_name = serializers.CharField(
         max_length=150,
-        style={'placeholder': 'Firstname'}
+        style={'placeholder': 'Lastname'}
     )
 
     email = serializers.EmailField(
         max_length=254,
-        style={'placeholder': 'Firstname'}
+        style={'placeholder': 'email'}
     )
 
     password = serializers.CharField(
