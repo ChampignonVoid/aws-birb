@@ -23,7 +23,10 @@ class BirbMeme(models.Model):
                                 on_delete=models.CASCADE)
 
 class MemeEvaluation(models.Model):
-    EVALUATION_MARK = [(x, x) for x in range(0, 11)]
+    EVALUATION_MARK = [(x, x) for x in range(0, 10)]
     meme_eval = models.PositiveIntegerField(choices=EVALUATION_MARK, default=0)
     meme = models.ForeignKey(BirbMeme, on_delete=models.CASCADE)
     creator = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    def __str__(self):
+        return ('Evaluation of %s: %s/10' % (self.creator.username,
+                                             str(self.meme_eval)))

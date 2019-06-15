@@ -7,7 +7,7 @@
     {% if latest_meme_list %}
         {% for meme in latest_meme_list %}
             <div>
-                <a href="{% url 'meme_detail' meme_id=meme.id %}">Meme {{ meme.id }}</a><br/>
+                <a href="{% url 'meme_detail' meme_id=meme.id %}">Meme #{{ meme.id }}</a><br/>
                 Creator by : <a href="{% url 'creator_detail' creator_id=meme.creator.id %}">{{ meme.creator.username }}</a><br />
                 The description : {{ meme.description }} <br />
                 <img src="{{ meme.meme_image.url }}"

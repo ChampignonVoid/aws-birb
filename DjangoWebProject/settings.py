@@ -144,8 +144,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['Media']))
 
 # Login/Logout
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/api/v1/'
+LOGOUT_REDIRECT_URL = '/api/v1/'
 
 # Heroku
 django_heroku.settings(locals())

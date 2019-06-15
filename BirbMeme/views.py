@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from rest_framework import status
@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view, renderer_classes
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
-from .serializers import BirbMemeSerializer, SignUpSerializer
+from .serializers import BirbMemeSerializer, SignUpSerializer, MemeEvalSerializer
 from .schemas import SignUpSchema
 from BirbMeme.models import BirbUser, BirbMeme, MemeEvaluation
 
@@ -19,7 +19,7 @@ def redirectToIndex():
     return HttpResponseRedirect(reverse('memes'))
 
 def index(request):
-    return HttpResponseRedirect(reverse('memes'))
+    return redirectToIndex()
 
 
 @api_view(['GET'])
@@ -32,18 +32,48 @@ def creator_detail(request, creator_id):
     return HttpResponse("You're looking at creator %s. %s" % (creator_id,
                                                               str(the_creator)))
 
+@api_view(['POST'])
+@renderer_classes([OpenAPIRenderer, SwaggerUIRenderer])
+def meme_eval(request, meme_id):
+    """
+    Evaluate a meme
+    """
+    meme = BirbMeme.objects.get(pk=meme_id)
+    if not request.user.is_authenticated:
+        return redirect('login')
+    try:
+        MemeEvaluation.objects.get(meme=meme, creator=request.user)
+        MemeEvaluation.objects.create(meme_eval=int(request.data.get('eval')),
+                                      meme=meme,
+                                      creator=request.user)
+    except MemeEvaluation.DoesNotExist:
+        pass
+    return HttpResponseRedirect(reverse('meme_detail',
+                                        kwargs={ 'meme_id': meme_id }))
 
 class BirbMemeList(APIView):
-    renderer_classes = [TemplateHTMLRenderer]
+    renderer_classes = [
+        TemplateHTMLRenderer,
+        OpenAPIRenderer,
+        SwaggerUIRenderer
+    ]
     template_name = "BirbMeme/index.html"
     
     def get(self, request):
+        """
+        Display the last 25 memes
+        """
         serializer = BirbMemeSerializer()
-        queryset = BirbMeme.objects.order_by('-creation_date')[:5]
+        queryset = BirbMeme.objects.order_by('-id')[:25]
 
         return Response({'latest_meme_list': queryset, 'serializer': serializer})
 
     def post(self, request):
+        """
+        Create a new meme
+        """
+        if not request.user.is_authenticated:
+            return redirect('login')
         serializer = BirbMemeSerializer(data=request.data)
         
         if serializer.is_valid():

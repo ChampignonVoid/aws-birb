@@ -3,28 +3,38 @@
 {% block content %}
 {% if meme %}
     <div>
-        You're on the meme : {{ meme.id }}<br />
+        You are on the meme : #{{ meme.id }}<br />
         <br />
         <a href="{{ meme.meme_image.url }}"><img src="{{ meme.meme_image.url }}"
                                                  class="fit-picture" /></a><br />
         <br />
         Creator by : <a href="{% url 'creator_detail' creator_id=meme.creator.id %}">{{ meme.creator.username }}</a><br />
         The description : {{ meme.description }} <br />
-        <br />
     </div>
+    <hr/>
+    <div>
+        <form action="{% url 'meme_eval' meme_id=meme.id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="eval">Evaluation</label>
+            <input type="range" name="eval" min="0" max="10"><br />
+        <button type="submit" class="btn btn-default">Submit evaluation</button>
+    </div>
+    <hr/>
 {% endif %}
 
-{% if meme_evals %}
-    Evaluations for the current meme : <br />
-    <ul>
-        {% for eval in meme_evals %}
-            <li>
-                {{ eval }}
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    No evaluations for the current meme.
-{% endif %}
+<div>
+    {% if meme_evals %}
+        Evaluations for the current meme : <br />
+        <ul>
+            {% for eval in meme_evals %}
+                <li>
+                    {{ eval }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        No evaluations for the current meme.
+    {% endif %}
+</div>
 
 {% endblock %}
