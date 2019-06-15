@@ -10,12 +10,15 @@ from rest_framework.decorators import api_view, renderer_classes
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from .serializers import BirbMemeSerializer, SignUpSerializer, MemeEvalSerializer
-from .schemas import SignUpSchema
+from .schemas import SignUpSchema, BirbMemeSchema
 from BirbMeme.models import BirbUser, BirbMeme, MemeEvaluation
 
 from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
 
 def redirectToIndex():
+    """
+    The main page of this API will be the memes' list
+    """
     return HttpResponseRedirect(reverse('memes'))
 
 def index(request):
@@ -86,10 +89,18 @@ class BirbMemeList(APIView):
 
 
 class BirbMemeDetail(APIView):
-    renderer_classes = [TemplateHTMLRenderer]
+    renderer_classes = [
+        TemplateHTMLRenderer,
+        OpenAPIRenderer,
+        SwaggerUIRenderer
+    ]
     template_name = "BirbMeme/meme.html"
+    schema = BirbMemeSchema()
 
     def get(self, request, meme_id):
+        """
+        Get a meme by its id
+        """
         the_meme = get_object_or_404(BirbMeme, pk=meme_id)
         meme_evals = MemeEvaluation.objects.filter(meme__id=meme_id)
         return Response({'meme': the_meme, 'meme_evals': meme_evals})
@@ -105,12 +116,18 @@ class SignUp(APIView):
     schema = SignUpSchema()
 
     def get(self, request):
+        """
+        Get the form in order to SignUp
+        """
         if request.user.is_authenticated:
             return redirectToIndex()
         serializer = SignUpSerializer()
         return Response({'title': 'SignUp', 'serializer': serializer})
 
     def post(self, request):
+        """
+        Create a new user and automatically login
+        """
         if request.user.is_authenticated:
             return redirectToIndex()
 
