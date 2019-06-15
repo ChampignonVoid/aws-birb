@@ -3,12 +3,14 @@ from rest_framework import serializers
 from .models import BirbMeme, BirbUser
 
 
-class BirbMemeSerializer(serializers.HyperlinkedModelSerializer):
-    creator = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-
-    class Meta:
-        model = BirbMeme
-        fields = '__all__'
+class BirbMemeSerializer(serializers.Serializer):
+    meme_image = serializers.ImageField(
+        required=True
+    )
+    description = serializers.CharField(
+        max_length=128,
+        required=True
+    )
 
 
 class SignUpSerializer(serializers.Serializer):

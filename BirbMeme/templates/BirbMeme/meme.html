@@ -2,15 +2,20 @@
 
 {% block content %}
 {% if meme %}
-    You're on the meme : {{ meme.id }}<br />
-    <br />
-    <a href={{ meme.meme_image.url }}><img src={{ meme.meme_image.url }} /></a><br />
-    <br />
-    {{ meme }} <br />
+    <div>
+        You're on the meme : {{ meme.id }}<br />
+        <br />
+        <a href="{{ meme.meme_image.url }}"><img src="{{ meme.meme_image.url }}"
+                                                 class="fit-picture" /></a><br />
+        <br />
+        Creator by : <a href="{% url 'creator_detail' creator_id=meme.creator.id %}">{{ meme.creator.username }}</a><br />
+        The description : {{ meme.description }} <br />
+        <br />
+    </div>
 {% endif %}
 
 {% if meme_evals %}
-    Evaluations of the current meme : <br />
+    Evaluations for the current meme : <br />
     <ul>
         {% for eval in meme_evals %}
             <li>

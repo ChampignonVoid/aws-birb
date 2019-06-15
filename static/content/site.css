@@ -40,3 +40,10 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
+
+.fit-picture {
+    max-width: 50vw;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

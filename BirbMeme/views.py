@@ -1,5 +1,6 @@
-from django.shortcuts import get_object_or_404, redirect
-from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
@@ -14,9 +15,11 @@ from BirbMeme.models import BirbUser, BirbMeme, MemeEvaluation
 
 from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
 
+def redirectToIndex():
+    return HttpResponseRedirect(reverse('memes'))
 
 def index(request):
-    return redirect('memes/')
+    return HttpResponseRedirect(reverse('memes'))
 
 
 @api_view(['GET'])
@@ -33,18 +36,23 @@ def creator_detail(request, creator_id):
 class BirbMemeList(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "BirbMeme/index.html"
-
+    
     def get(self, request):
+        serializer = BirbMemeSerializer()
         queryset = BirbMeme.objects.order_by('-creation_date')[:5]
-        return Response({'latest_meme_list': queryset})
 
-    @login_required(login_url='/')
+        return Response({'latest_meme_list': queryset, 'serializer': serializer})
+
     def post(self, request):
         serializer = BirbMemeSerializer(data=request.data)
+        
         if serializer.is_valid():
-            serializer.save()
-            return redirect('/')
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            BirbMeme.objects.create(meme_image=request.data.get('meme_image'),
+                                    description=request.data.get('description'),
+                                    creator=request.user)
+            return redirectToIndex()
+
+        return Response({'serializer': serializer})
 
 
 class BirbMemeDetail(APIView):
@@ -68,13 +76,13 @@ class SignUp(APIView):
 
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect('/')
+            return redirectToIndex()
         serializer = SignUpSerializer()
         return Response({'title': 'SignUp', 'serializer': serializer})
 
     def post(self, request):
         if request.user.is_authenticated:
-            return redirect('/')
+            return redirectToIndex()
 
         serializer = SignUpSerializer(data=request.data)
         if not serializer.is_valid():
@@ -90,4 +98,4 @@ class SignUp(APIView):
                                             email=email,
                                             password=password)
         login(request, user)
-        return redirect('/')
+        return redirectToIndex()
