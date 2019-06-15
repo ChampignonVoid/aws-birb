@@ -5,3 +5,4 @@ django-bootstrap4
 gunicorn==19.9.0
 django-heroku==0.3.1
 djangorestframework
+django-rest-swagger

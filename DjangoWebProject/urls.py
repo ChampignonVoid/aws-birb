@@ -20,7 +20,8 @@ urlpatterns = [
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:    
-    path('', include('BirbMeme.urls')),
-    path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('api/v1/', include('BirbMeme.urls')),
+    path('api/v1/admin/', admin.site.urls),
+    path('api/v1/accounts/', include('django.contrib.auth.urls')),
+    path('api/v1/', include('docs.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

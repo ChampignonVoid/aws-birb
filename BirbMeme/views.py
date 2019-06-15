@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
+from rest_framework.decorators import api_view, renderer_classes
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
@@ -12,8 +13,10 @@ from django.contrib.auth import login
 from django.core.exceptions import ValidationError
 
 from .serializers import BirbMemeSerializer, SignUpSerializer
-
+from .schemas import SignUpSchema
 from BirbMeme.models import BirbUser, BirbMeme, MemeEvaluation
+
+from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
 
 # Create your views here
 
@@ -21,8 +24,12 @@ from BirbMeme.models import BirbUser, BirbMeme, MemeEvaluation
 def index(request):
     return redirect('memes/')
 
-
+@api_view(['GET'])
+@renderer_classes([OpenAPIRenderer, SwaggerUIRenderer])
 def creator_detail(request, creator_id):
+    """
+    Get the user\'s details
+    """
     the_creator = BirbUser.objects.get(id=creator_id)
     return HttpResponse("You're looking at creator %s. %s" % (creator_id, str(the_creator)))
 
@@ -55,10 +62,10 @@ class BirbMemeDetail(APIView):
         meme_evals = MemeEvaluation.objects.filter(meme__id=meme_id)
         return Response({'meme': the_meme, 'meme_evals': meme_evals})
 
-
 class SignUp(APIView):
-    renderer_classes = [TemplateHTMLRenderer]
+    renderer_classes = [TemplateHTMLRenderer, OpenAPIRenderer, SwaggerUIRenderer]
     template_name = "BirbMeme/sign_up.html"
+    schema = SignUpSchema()
 
     def get(self, request):
         if request.user.is_authenticated:

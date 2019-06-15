@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'BirbMeme.apps.BirbMemeConfig',
     'registration.apps.RegistrationConfig',
     'rest_framework',
+    'rest_framework_swagger'
 ]
 
 MIDDLEWARE = [
