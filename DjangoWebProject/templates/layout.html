@@ -17,11 +17,11 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/" class="navbar-brand">Application name</a>
+                <a href="{% url 'index' %}" class="navbar-brand">Application name</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/">Index</a></li>
+                    <li><a href="{% url 'index' %}">Index</a></li>
                 </ul>
                 {% include 'registration/loginpartial.html' %}
             </div>
