@@ -1,6 +1,7 @@
 from django.urls import path
 
-from .views import index, creator_detail, BirbMemeList, BirbMemeDetail, SignUp, meme_eval
+from .views import index, creator_detail, \
+    BirbMemeList, BirbMemeDetail, SignUp, meme_eval
 
 urlpatterns = [
     path('', index, name='index'),

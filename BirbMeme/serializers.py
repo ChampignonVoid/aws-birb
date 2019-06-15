@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import BirbMeme, BirbUser, MemeEvaluation
+from .models import BirbUser
 
 
 class BirbMemeSerializer(serializers.Serializer):
@@ -44,9 +44,3 @@ class SignUpSerializer(serializers.Serializer):
             raise serializers.ValidationError("This field may not be blank.")
         if BirbUser.objects.filter(username=value).count() > 0:
             raise serializers.ValidationError("Username already exists")
-
-
-class MemeEvalSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MemeEvaluation
-        fields = ('meme_eval', 'meme', 'creator')

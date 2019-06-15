@@ -92,11 +92,12 @@ DATABASES = {
 
 if not DEBUG:
     DATABASES = {
-        'default' : {
+        'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'd4s205ctoo1ac2',
             'USER': 'yfdcnacnhclxja',
-            'PASSWORD': '7310e41e804f471ab424e30d95603e5e828f6afb0706116968bfd4230f4a4a1f',
+            'PASSWORD': '7310e41e804f471ab424e30d95603e5'
+                        'e828f6afb0706116968bfd4230f4a4a1f',
             'HOST': 'ec2-54-217-225-16.eu-west-1.compute.amazonaws.com',
             'PORT': '5432'
         }
