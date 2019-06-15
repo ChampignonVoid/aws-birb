@@ -6,7 +6,11 @@ Project done for the Django course, using Django REST API
 - Axel VIGNY
 - Laxman THAYALAN
 
+## Heroku :
+Le site est hebergé sur [Heroku](https://epita-python-2020.herokuapp.com/)
+
 ## Les urls utilisables :
+	/api/v1/docs/ : documentation Swagger
 
 	/admin/ : connexion en tant qu'admin (vous devez crer un superuser auparavant)
 		  ajout, suppression, modification des donnes via les pages suivantes
